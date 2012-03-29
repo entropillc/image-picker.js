@@ -64,14 +64,12 @@ ImagePicker.prototype = {
     
     var html = '';
     
-    for (var x = 0; x < 10; x++) {
-      for (var i = 0, length = dataSource.length; i < length; i++) {
-        html += '<li><a class="ip-push" href="#" data-image-id="' + dataSource[i].id + '"><img alt="" src="' + dataSource[i].thumbnailUrl + '"/></a></li>';
-      }
+    for (var i = 0, length = dataSource.length; i < length; i++) {
+      html += '<li><a class="ip-push" href="#" data-image-id="' + dataSource[i].id + '"><img alt="" src="' + dataSource[i].thumbnailUrl + '"/></a></li>';
     }
     
     this.$listElement.html(html);
-    this.$footerElement.html((dataSource.length * 10) + ' Photos');
+    this.$footerElement.html((dataSource.length) + ' Photos');
   }
 };
 
