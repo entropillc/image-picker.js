@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<title>ImagePicker Demo</title>
+	<link rel="stylesheet" type="text/css" href="externals/Pushpop/externals/scrollkit/scrollkit.css"/>
+	<link rel="stylesheet" type="text/css" href="externals/Pushpop/pushpop.css"/>
+	<link rel="stylesheet" type="text/css" href="externals/Pushpop/pushpop-navigationbar/pushpop-navigationbar.css"/>
+	<link rel="stylesheet" type="text/css" href="image-picker.css"/>
+	<script type="text/javascript" src="zepto.js"></script>
+	<script type="text/javascript" src="externals/Pushpop/externals/scrollkit/scrollkit.js"></script>
+	<script type="text/javascript" src="externals/Pushpop/pushpop.js"></script>
+	<script type="text/javascript" src="externals/Pushpop/pushpop-navigationbar/pushpop-navigationbar.js"></script>
+	<script type="text/javascript" src="image-picker.js"></script>
+	<script type="text/javascript">
+	  $(function() {
+	    var sampleData = [{
+  	      id: 1,
+  	      title: 'Sample Image 1',
+  	      thumbnailUrl: 'images/sample-1.jpg',
+  	      imageUrl: 'images/sample-1.jpg'
+  	    }, {
+  	      id: 2,
+  	      title: 'Sample Image 2',
+  	      thumbnailUrl: 'images/sample-2.jpg',
+  	      imageUrl: 'images/sample-2.jpg'
+  	    }, {
+  	      id: 3,
+  	      title: 'Sample Image 3',
+  	      thumbnailUrl: 'images/sample-3.jpg',
+  	      imageUrl: 'images/sample-3.jpg'
+  	    }, {
+  	      id: 4,
+  	      title: 'Sample Image 4',
+  	      thumbnailUrl: 'images/sample-4.jpg',
+  	      imageUrl: 'images/sample-4.jpg'
+  	    }, {
+  	      id: 5,
+  	      title: 'Sample Image 5',
+  	      thumbnailUrl: 'images/sample-5.jpg',
+  	      imageUrl: 'images/sample-5.jpg'
+  	  }];
+  	  
+  	  var imagePicker = $('#image-picker')[0].imagePicker;
+  	  imagePicker.setDataSource(sampleData);
+	  });
+	</script>
+</head>
+<body>
+  <div class="pp-view-stack">
+    <div class="pp-navigationbar"></div>
+    <div class="pp-view sk-scroll-view ip-image-picker" id="image-picker" data-view-title="Photos">
+      
+    </div>
+  </div>
+</body>
+</html>

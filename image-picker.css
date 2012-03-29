@@ -1,0 +1,73 @@
+.ip-image-picker > .sk-scroll-content {
+  background: #fff;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  -webkit-text-size-adjust: none;
+}
+
+.ip-image-picker p {
+  color: #808895;
+  font-size: 1.3em;
+  margin: 0.4em 0.4em 0.6em;
+  text-align: center;
+}
+
+.ip-image-picker ul {
+  list-style: none;
+  margin: 3px 0 0;
+  padding: 0;
+}
+
+.ip-image-picker li {
+  display: inline-block;
+  list-style-type: none;
+  position: relative;
+  width: 75px;
+  height: 75px;
+  margin: 0 0 0 4px;
+}
+
+/* Fix for weird iPhone spacing issue */
+@media only screen and (max-device-width: 480px) {
+  .ip-image-picker ul {
+    margin-top: 5px;
+  }
+  
+  .ip-image-picker li {
+    margin-top: -1px;
+  }
+}
+
+.ip-image-picker a {
+  border: none;
+  display: inline-block;
+  position: relative;
+  width: 75px;
+  height: 75px;
+  margin: 0;
+}
+
+.ip-image-picker a:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 75px;
+  height: 75px;
+  -webkit-box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+}
+
+.ip-image-picker img {
+  border: none;
+  width: 75px;
+  height: 75px;
+  margin: 0;
+}
+
+.ip-detail-image {
+  width: 100%;
+  height: 100%;
+}
