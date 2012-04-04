@@ -14,7 +14,7 @@
 
 .ip-image-picker ul {
   list-style: none;
-  margin: 3px 0 0;
+  margin: 0;
   padding: 0;
 }
 
@@ -29,12 +29,8 @@
 
 /* Fix for weird iPhone spacing issue */
 @media only screen and (max-device-width: 480px) {
-  .ip-image-picker ul {
-    margin-top: 5px;
-  }
-  
   .ip-image-picker li {
-    margin-top: -1px;
+    margin-top: 4px;
   }
 }
 
