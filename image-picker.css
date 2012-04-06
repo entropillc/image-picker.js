@@ -63,6 +63,10 @@
   margin: 0;
 }
 
+.ip-detail-view.sk-scroll-view {
+  background-color: #000;
+}
+
 .ip-detail-image {
   border: none;
   display: block;
