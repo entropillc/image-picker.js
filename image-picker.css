@@ -64,6 +64,10 @@
 }
 
 .ip-detail-image {
-  width: 100%;
+  border: none;
+  display: block;
+  margin: 0 auto;
+  width: auto;
   height: 100%;
+  -ms-interpolation-mode: bicubic;
 }

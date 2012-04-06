@@ -7,19 +7,23 @@ var ImagePicker = function(element) {
   var imagePicker = element.imagePicker;
   if (imagePicker) return imagePicker;
   
-  var $scrollContentElement = $element.children('.sk-scroll-content');
-  var $listElement = this.$listElement = $('<ul/>').appendTo($scrollContentElement);
-  var $footerElement = this.$footerElement = $('<p/>').appendTo($scrollContentElement);
-  
   var self = element.imagePicker = this;
-  
   var viewStack = $element.parent()[0].viewStack;
+  
+  // Set up the master view.
+  var $scrollContentElement = $element.children('.sk-scroll-content');
+  var $masterListElement = this.$masterListElement = $('<ul/>').appendTo($scrollContentElement);
+  var $masterFooterElement = this.$masterFooterElement = $('<p/>').appendTo($scrollContentElement);
   
   // Set up the detail view.
   var detailViewId = 'ip-detail-view-' + (!!Date['now'] ? Date.now() : +new Date());
-  var $detailViewElement = $('<div class="pp-view ip-detail-view" id="' + detailViewId + '"/>').appendTo(viewStack.$element);
-  var $detailImageElement = $('<img class="ip-detail-image"/>').appendTo($detailViewElement);
-  var detailView = new Pushpop.View($detailViewElement);
+  var $detailScrollViewElement = $('<div class="pp-view sk-scroll-view ip-detail-view" data-paging-enabled="true" data-shows-horizontal-scroll-indicator="false" id="' + detailViewId + '"/>').appendTo(viewStack.$element);
+  
+  var detailScrollView = new SKScrollView($detailScrollViewElement);
+  var detailView = new Pushpop.View($detailScrollViewElement);
+  
+  var $detailListElement = this.$detailListElement = $('<ul class="sk-page-container-horizontal"/>').appendTo(detailScrollView.content.$element);
+  //var $detailImageElement = $('<img class="ip-detail-image"/>').appendTo(detailScrollView.content.$element);
   
   // Override default click behavior.
   var didClickThumbnail = false;
@@ -41,8 +45,8 @@ var ImagePicker = function(element) {
       
       if (!data) return;
       
-      $detailImageElement.attr('src', data.imageUrl);
-      $detailImageElement.attr('title', data.title);
+      // $detailImageElement.attr('src', data.imageUrl);
+      //  $detailImageElement.attr('title', data.title);
       
       viewStack.push(detailView);
     }
@@ -56,20 +60,25 @@ ImagePicker.prototype = {
   _dataSource: [],
   element: null,
   $element: null,
-  $listElement: null,
-  $footerElement: null,
+  $masterListElement: null,
+  $masterFooterElement: null,
+  $detailListElement: null,
   imagePickerDetailView: null,
   setDataSource: function(dataSource) {
     this._dataSource = dataSource;
     
-    var html = '';
+    var masterListHtml = '';
+    var detailListHtml = '';
     
     for (var i = 0, length = dataSource.length; i < length; i++) {
-      html += '<li><a class="ip-push" href="#" data-image-id="' + dataSource[i].id + '"><img alt="" src="' + dataSource[i].thumbnailUrl + '"/></a></li>';
+      masterListHtml += '<li><a class="ip-push" href="#" data-image-id="' + dataSource[i].id + '"><img alt="" src="' + dataSource[i].thumbnailUrl + '"/></a></li>';
+      detailListHtml += '<li><img class="ip-detail-image" data-image-id="' + dataSource[i].id + '" src="' + dataSource[i].thumbnailUrl + '"/></li>';
     }
     
-    this.$listElement.html(html);
-    this.$footerElement.html((dataSource.length) + ' Photos');
+    this.$masterListElement.html(masterListHtml);
+    this.$masterFooterElement.html((dataSource.length) + ' Photos');
+    
+    this.$detailListElement.html(detailListHtml);
   }
 };
 
