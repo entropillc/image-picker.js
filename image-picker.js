@@ -10,6 +10,8 @@ var ImagePicker = function(element) {
   var self = element.imagePicker = this;
   var viewStack = $element.parent()[0].viewStack;
   
+  var $window = $(window['addEventListener'] ? window : document.body);
+  
   // Set up the master view.
   var $scrollContentElement = $element.children('.sk-scroll-content');
   var $masterListElement = this.$masterListElement = $('<ul/>').appendTo($scrollContentElement);
@@ -23,7 +25,16 @@ var ImagePicker = function(element) {
   var detailView = new Pushpop.View($detailScrollViewElement);
   
   var $detailListElement = this.$detailListElement = $('<ul class="sk-page-container-horizontal"/>').appendTo(detailScrollView.content.$element);
-  //var $detailImageElement = $('<img class="ip-detail-image"/>').appendTo(detailScrollView.content.$element);
+  
+  // Load the actual high resolution image when the page changes.
+  $detailScrollViewElement.bind(SKScrollEventType.PageChanged, function(evt) {
+    var currentPage = detailScrollView.currentPage;
+    var dataSource = self._dataSource;
+    
+    if (currentPage > dataSource.length - 1) return;
+    
+    loadImage(dataSource[currentPage]);
+  });
   
   // Override default click behavior.
   var didClickThumbnail = false;
@@ -34,26 +45,42 @@ var ImagePicker = function(element) {
     if (didClickThumbnail) {
       var id = $(this).attr('data-image-id');
       var dataSource = self._dataSource;
-      var data;
+      var index = 0;
+      var imageData;
       
       for (var i = 0, length = dataSource.length; i < length; i++) {
         if (dataSource[i].id == id) {
-          data = dataSource[i];
+          index = i;
+          imageData = dataSource[i];
           break;
         }
       }
       
-      if (!data) return;
+      if (!imageData) return;
       
-      // $detailImageElement.attr('src', data.imageUrl);
-      //  $detailImageElement.attr('title', data.title);
+      loadImage(imageData);
+      
+      detailScrollView.setContentOffset({ x: index * $window.width(), y: 0 });
       
       viewStack.push(detailView);
     }
   });
   
-  // Prevent accidental dragging of links in WebKit.
-  $element.find('a').each(function(index, element) { element.draggable = false; });
+  var loadImage = function(imageData) {
+    if (!imageData || imageData.isLoaded) return;
+    
+    var image = new Image();
+    var imageUrl = imageData.imageUrl;
+    
+    image.onload = function(evt) {
+      var $detailImageElement = $detailListElement.find('img[data-image-id="' + imageData.id + '"]').first();
+      $detailImageElement.attr('src', imageUrl);
+      
+      imageData.isLoaded = true;
+    };
+    
+    image.src = imageUrl;
+  };
 };
 
 ImagePicker.prototype = {
@@ -72,7 +99,7 @@ ImagePicker.prototype = {
     
     for (var i = 0, length = dataSource.length; i < length; i++) {
       masterListHtml += '<li><a class="ip-push" href="#" data-image-id="' + dataSource[i].id + '"><img alt="" src="' + dataSource[i].thumbnailUrl + '"/></a></li>';
-      detailListHtml += '<li><img class="ip-detail-image" data-image-id="' + dataSource[i].id + '" src="' + dataSource[i].thumbnailUrl + '"/></li>';
+      detailListHtml += '<li><img class="ip-detail-image" data-image-id="' + dataSource[i].id + '" alt="' + (dataSource[i].title || '') + '" title="' + (dataSource[i].title || '') + '" src="' + dataSource[i].thumbnailUrl + '"/></li>';
     }
     
     this.$masterListElement.html(masterListHtml);
