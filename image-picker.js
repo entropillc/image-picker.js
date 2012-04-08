@@ -22,7 +22,11 @@ var ImagePicker = function(element) {
   var $detailScrollViewElement = $('<div class="pp-view sk-scroll-view ip-detail-view" data-paging-enabled="true" data-shows-horizontal-scroll-indicator="false" id="' + detailViewId + '"/>').appendTo(viewStack.$element);
   
   var detailScrollView = new SKScrollView($detailScrollViewElement);
-  var detailView = new Pushpop.View($detailScrollViewElement);
+  var detailView = this.detailView = new Pushpop.View($detailScrollViewElement);
+  
+  var viewStack = detailView.getViewStack();
+  var navigationBarElement = (viewStack) ? viewStack.$element.children('.pp-navigationbar')[0] : null;
+  var navigationBar = this.navigationBar = navigationBarElement.navigationBar;
   
   var $detailListElement = this.$detailListElement = $('<ul class="sk-page-container-horizontal"/>').appendTo(detailScrollView.content.$element);
   
@@ -34,6 +38,8 @@ var ImagePicker = function(element) {
     if (currentPage > dataSource.length - 1) return;
     
     loadImage(dataSource[currentPage]);
+    
+    if (navigationBar) navigationBar.setTitle((currentPage + 1) + ' of ' + dataSource.length);
   });
   
   // Override default click behavior.
@@ -63,6 +69,8 @@ var ImagePicker = function(element) {
       detailScrollView.setContentOffset({ x: index * $window.width(), y: 0 });
       
       viewStack.push(detailView);
+      
+      if (navigationBar) navigationBar.setTitle((index + 1) + ' of ' + dataSource.length);
     }
   });
   
@@ -90,7 +98,8 @@ ImagePicker.prototype = {
   $masterListElement: null,
   $masterFooterElement: null,
   $detailListElement: null,
-  imagePickerDetailView: null,
+  detailView: null,
+  navigationBar: null,
   setDataSource: function(dataSource) {
     this._dataSource = dataSource;
     

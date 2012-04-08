@@ -1,14 +1,20 @@
-.ip-image-picker > .sk-scroll-content {
+.ip-image-picker.sk-scroll-view, .ip-image-picker > .sk-scroll-content {
   background: #fff;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 16px;
   -webkit-text-size-adjust: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 
 .ip-image-picker p {
+  clear: both;
   color: #808895;
-  font-size: 1.3em;
-  margin: 0.4em 0.4em 0.6em;
+  font-size: 1.25em;
+  margin: 0 0.4em 1.5em;
+  position: relative;
+  top: 0.65em;
   text-align: center;
 }
 
@@ -19,12 +25,13 @@
 }
 
 .ip-image-picker li {
-  display: inline-block;
+  display: block;
+  float: left;
   list-style-type: none;
   position: relative;
   width: 75px;
   height: 75px;
-  margin: 0 0 0 4px;
+  margin: 4px 0 0 4px;
 }
 
 /* Fix for weird iPhone spacing issue */
