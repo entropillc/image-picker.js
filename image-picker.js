@@ -8,7 +8,8 @@ var ImagePicker = function(element) {
   if (imagePicker) return imagePicker;
   
   var self = element.imagePicker = this;
-  var viewStack = $element.parent()[0].viewStack;
+  
+  var viewStack = Pushpop.getViewStackForElement(element);
   
   var $window = $(window['addEventListener'] ? window : document.body);
   
