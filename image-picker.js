@@ -22,18 +22,18 @@ var ImagePicker = function(element) {
   var detailViewId = 'ip-detail-view-' + (!!Date['now'] ? Date.now() : +new Date());
   var $detailScrollViewElement = $('<div class="pp-view sk-scroll-view ip-detail-view" data-paging-enabled="true" data-shows-horizontal-scroll-indicator="false" id="' + detailViewId + '"/>').appendTo(viewStack.$element);
   
-  var detailScrollView = new SKScrollView($detailScrollViewElement);
+  var detailScrollView = new ScrollKit.ScrollView($detailScrollViewElement);
   var detailView = this.detailView = new Pushpop.View($detailScrollViewElement);
   
   var viewStack = detailView.getViewStack();
   var navigationBarElement = (viewStack) ? viewStack.$element.children('.pp-navigationbar')[0] : null;
   var navigationBar = this.navigationBar = navigationBarElement.navigationBar;
   
-  var $detailListElement = this.$detailListElement = $('<ul class="sk-page-container-horizontal"/>').appendTo(detailScrollView.content.$element);
+  var $detailListElement = this.$detailListElement = $('<ul class="sk-page-container-horizontal"/>').appendTo(detailScrollView.getScrollContent().$element);
   
   // Load the actual high resolution image when the page changes.
-  $detailScrollViewElement.bind(SKScrollEventType.PageChanged, function(evt) {
-    var currentPage = detailScrollView.currentPage;
+  $detailScrollViewElement.bind(ScrollKit.ScrollView.EventType.PageChanged, function(evt) {
+    var currentPage = detailScrollView.getCurrentPageIndex();
     var dataSource = self._dataSource;
     
     if (currentPage > dataSource.length - 1) return;
@@ -67,7 +67,7 @@ var ImagePicker = function(element) {
       
       loadImage(imageData);
       
-      detailScrollView.setContentOffset({ x: index * $window.width(), y: 0 });
+      detailScrollView.setCurrentPageIndex(index);
       
       viewStack.push(detailView);
       
